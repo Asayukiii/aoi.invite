@@ -48,7 +48,7 @@ export default class InviteManager extends EventEmitter {
     resetInvites(guildId: string, inviter: string): Promise<boolean>;
     resetGuildInvites(guildId: string): Promise<void>;
     setInviterData(inviter: string, guildId: string, data: InviterData): Promise<void>;
-    getLeaderboard(guildId: string, page?: number, limit?: number, format?: string): Promise<any>;
+    getLeaderboard(guildId: string, page?: number, limit?: number, format?: string): Promise<any[] | null>;
     getInviteJoins(code: string, guildId: string): Promise<any>;
     getInviteLeaderboard(guildId: string, page: number, limit: number, format: string): Promise<string[] | null>;
 }

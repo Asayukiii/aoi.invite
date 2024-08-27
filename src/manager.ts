@@ -1,4 +1,3 @@
-// @ts-nocheck ! <- Something is wrong with aoi.db typings.
 import { CodeData, InviteManagerEvents, InviterData } from "./typings.js";
 import { KeyValue, KeyValueData } from "@aoijs/aoi.db";
 import { InviteSystemEvents } from "./typings.js";
@@ -63,6 +62,7 @@ export default class InviteManager extends EventEmitter {
         event: Event,
         listener: InviteSystemEvents[Event],
     ) {
+        // @ts-ignore
         return super.on(event, listener);
     }
 
@@ -70,6 +70,7 @@ export default class InviteManager extends EventEmitter {
         event: Event,
         ...args: Parameters<InviteSystemEvents[Event]>
     ) {
+        // @ts-ignore
         return super.emit(event, ...args);
     }
     setFakeLimit(limit: number) {
@@ -190,11 +191,11 @@ export default class InviteManager extends EventEmitter {
         guildId: string;
     }) {
         let inviterData = (
-            await this.db.get("invites", `${inviter}_${guildId}`)
+            await this.db.get("invites", `${inviter}_${guildId}`) as KeyValueData
         )?.value as InviterData | undefined;
 
         let codeData = (
-            await this.db.get("inviteCodes", `${code}_${guildId}_${inviter}`)
+            await this.db.get("inviteCodes", `${code}_${guildId}_${inviter}`) as KeyValueData
         )?.value as CodeData[] | undefined;
 
         if (!inviterData) {
@@ -265,7 +266,7 @@ export default class InviteManager extends EventEmitter {
         inviter: string,
         guildId: string,
     ): Promise<InviterData | null> {
-        const data = (await this.db.get("invites", `${inviter}_${guildId}`))
+        const data = (await this.db.get("invites", `${inviter}_${guildId}`) as KeyValueData)
             ?.value;
         if (!data) return null;
         return data;
@@ -275,7 +276,7 @@ export default class InviteManager extends EventEmitter {
         const data = (
             await this.db.findMany("invites", (data) => {
                 return data.key.startsWith(`${inviter}_`);
-            })
+            }) as KeyValueData[]
         )?.map((data) => data.value);
 
         if (!data) return null;
@@ -290,7 +291,7 @@ export default class InviteManager extends EventEmitter {
             const data = await this.db.get(
                 "inviteCodes",
                 `${code}_${guildId}_${inviter}`,
-            );
+            ) as KeyValueData;
             if (!data) return null;
             return data;
         } else {
@@ -447,7 +448,7 @@ export default class InviteManager extends EventEmitter {
     ) {
         let inviters = await this.db.findMany("invites", (data) => {
             return data.key.endsWith(guildId);
-        });
+        }) as KeyValueData[];
 
         if (!inviters) return null;
 
@@ -585,7 +586,7 @@ export default class InviteManager extends EventEmitter {
     ) {
         const data = await this.db.all("invites", (data) => {
             return data.key.endsWith(guildId);
-        });
+        }) as KeyValueData[];
         if (!data) return null;
 
         const res = [];

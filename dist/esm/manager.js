@@ -48,9 +48,11 @@ class InviteManager extends node_events_1.EventEmitter {
         });
     }
     on(event, listener) {
+        // @ts-ignore
         return super.on(event, listener);
     }
     emit(event, ...args) {
+        // @ts-ignore
         return super.emit(event, ...args);
     }
     setFakeLimit(limit) {
