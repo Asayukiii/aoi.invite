@@ -6,18 +6,18 @@ const funcitons = [
         description: "Returns the invitee's information",
         fields: [
             {
-                name: "userId",
-                description: "The user's id",
-                type: "string",
-                required: false,
-                default: "<Author>.id",
-            },
-            {
                 name: "guildId",
                 description: "The guild's id",
                 type: "string",
                 required: false,
                 default: "<Guild>.id",
+            },
+            {
+                name: "userId",
+                description: "The user's id",
+                type: "string",
+                required: false,
+                default: "<Author>.id",
             },
             {
                 name: "options",
@@ -32,14 +32,14 @@ const funcitons = [
         example: `
 $inviteeInfo
 //or
-$inviteeInfo[$authorID;$guildId;inviter]
+$inviteeInfo[$guildId;$authorID;inviter]
 //or
 $getObjectProperty[name;inviter]
-$createObject[name;$inviteeInfo[$authorID;$guildID;all]]
+$createObject[name;$inviteeInfo[$guildID;$authorID;all]]
         `,
         code: async (d) => {
             const data = d.util.aoiFunc(d);
-            const [userId = d.author?.id, guildId = d.guild?.id, option = "all",] = data.inside.splits;
+            const [guildId = d.guild?.id, userId = d.author?.id, option = "all",] = data.inside.splits;
             const inviteSystem = d.client.AoiInviteSystem;
             if (!inviteSystem)
                 return d.aoiError.fnError(d, "custom", { inside: data.inside }, "InviteManager is not enabled in this bot!");
@@ -61,18 +61,18 @@ $createObject[name;$inviteeInfo[$authorID;$guildID;all]]
         description: "Returns the inviter's information",
         fields: [
             {
-                name: "userId",
-                description: "The user's id",
-                type: "string",
-                required: false,
-                default: "<Author>.id",
-            },
-            {
                 name: "guildId",
                 description: "The guild's id",
                 type: "string",
                 required: false,
                 default: "<Guild>.id",
+            },
+            {
+                name: "userId",
+                description: "The user's id",
+                type: "string",
+                required: false,
+                default: "<Author>.id",
             },
             {
                 name: "options",
@@ -92,14 +92,14 @@ $createObject[name;$inviteeInfo[$authorID;$guildID;all]]
         example: `
 $inviterInfo
 //or
-$inviterInfo[$authorID;$guildId;codes]
+$inviterInfo[$guildId;$authorID;codes]
 //or
 $getObjectProperty[name;codes]
-$createObject[name;$inviterInfo[$authorID;$guildID;all]]
+$createObject[name;$inviterInfo[$guildID;$authorID;all]]
         `,
         code: async (d) => {
             const data = d.util.aoiFunc(d);
-            const [userId = d.author?.id, guildId = d.guild?.id, option = "all",] = data.inside.splits;
+            const [guildId = d.guild?.id, userId = d.author?.id, option = "all",] = data.inside.splits;
             const inviteSystem = d.client.AoiInviteSystem;
             if (!inviteSystem)
                 return d.aoiError.fnError(d, "custom", { inside: data.inside }, "InviteManager is not enabled in this bot!");
@@ -237,17 +237,17 @@ $resetGuildInvites[$guildID]
         description: "Returns the member ids who joined with the invite",
         fields: [
             {
-                name: "code",
-                description: "The invite code",
-                type: "string",
-                required: true,
-            },
-            {
                 name: "guildId",
                 description: "The guild's id",
                 type: "string",
                 required: false,
                 default: "<Guild>.id",
+            },
+            {
+                name: "code",
+                description: "The invite code",
+                type: "string",
+                required: true,
             },
             {
                 name: "separator",
@@ -260,11 +260,11 @@ $resetGuildInvites[$guildID]
         options: [],
         returns: "string[]",
         example: `
-$inviteJoins[inviteCode;$guildID]
+$inviteJoins[$guildID;inviteCode]
         `,
         code: async (d) => {
             const data = d.util.aoiFunc(d);
-            const [code, guildId = d.guild?.id, separator = ","] = data.inside.splits;
+            const [guildId = d.guild?.id, code, separator = ","] = data.inside.splits;
             const inviteSystem = d.client.AoiInviteSystem;
             if (!inviteSystem)
                 return d.aoiError.fnError(d, "custom", { inside: data.inside }, "InviteManager is not enabled in this bot!");
@@ -280,14 +280,14 @@ $inviteJoins[inviteCode;$guildID]
         description: "Modifies the invite",
         fields: [
             {
-                name: "inviter",
-                description: "The inviter's id",
+                name: "guildId",
+                description: "The guild's id",
                 type: "string",
                 required: true,
             },
             {
-                name: "guildId",
-                description: "The guild's id",
+                name: "inviter",
+                description: "The inviter's id",
                 type: "string",
                 required: true,
             },
@@ -314,7 +314,7 @@ $modifyInvite[$authorID;$guildID;counts.total;10]
         `,
         code: async (d) => {
             const data = d.util.aoiFunc(d);
-            const [inviter, guildId, option, value] = data.inside.splits;
+            const [guildId, inviter, option, value] = data.inside.splits;
             if (option.endsWith("total"))
                 return d.aoiError.fnError(d, "custom", { inside: data.inside }, "Cannot modify total count!");
             const inviteSystem = d.client.AoiInviteSystem;
