@@ -1,4 +1,4 @@
-<h1 align="center">@akarui/aoi.invite</h1>
+<h1 align="center">@aoijs/aoi.invite</h1>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@akarui/aoi.invite">
@@ -11,26 +11,21 @@
 ## Installation
 
 ```sh
-npm i @akarui/aoi.invite
+npm i @aoijs/aoi.invite
 ```
 
 ## Setup
 
 ```js
-const {AoiClient} = require("aoi.js");
+const { InviteManager } = require("@aoijs/aoi.invite");
+const { AoiClient } = require("aoi.js");
 
 const client = new AoiClient({
     intents: ["MessageContent", "Guilds", "GuildMessages"],
     events: ["onMessage", "onInteractionCreate"],
     prefix: "Discord Bot Prefix",
     token: "Discord Bot Token",
-    database: {
-        type: "aoi.db",
-        db: require("@akarui/aoi.db"),
-        dbType: "KeyValue",
-        tables: ["main"],
-        securityKey: "a-32-characters-long-string-here",
-    }
+    ...
 });
 
 // Ping Command
@@ -39,8 +34,7 @@ client.command({
     code: `Pong! $pingms`
 });
 
-const { InviteManager } = require("@akarui/aoi.invite");
-const i = new InviteManager(client,{
+const i = new InviteManager(client, {
     sk: "a-32-characters-long-string-here",
-},['inviteJoin','inviteLeave']);
+}, ['inviteJoin','inviteLeave']);
 ```

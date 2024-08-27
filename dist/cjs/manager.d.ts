@@ -1,11 +1,10 @@
-/// <reference types="node" />
-import { EventEmitter } from "node:events";
-import { AoiClient, Command } from "aoi.js";
-import { KeyValue, KeyValueData } from "@akarui/aoi.db";
-import { Invite, GuildMember } from "discord.js";
-import { Group } from "@akarui/structures";
 import { InviteManagerEvents, InviterData } from "./typings.js";
+import { KeyValue, KeyValueData } from "@aoijs/aoi.db";
 import { InviteSystemEvents } from "./typings.js";
+import { Invite, GuildMember } from "discord.js";
+import { Group } from "@aoijs/aoi.structures";
+import { AoiClient, Command } from "aoi.js";
+import { EventEmitter } from "node:events";
 export default class InviteManager extends EventEmitter {
     #private;
     db: KeyValue;
@@ -23,8 +22,8 @@ export default class InviteManager extends EventEmitter {
     constructor(client: AoiClient, dbOptions: {
         sk: string;
     }, events: InviteManagerEvents[]);
-    on<Event extends keyof InviteSystemEvents>(event: Event, listener: InviteSystemEvents[Event]): this;
-    emit<Event extends keyof InviteSystemEvents>(event: Event, ...args: Parameters<InviteSystemEvents[Event]>): boolean;
+    on<Event extends keyof InviteSystemEvents>(event: Event, listener: InviteSystemEvents[Event]): any;
+    emit<Event extends keyof InviteSystemEvents>(event: Event, ...args: Parameters<InviteSystemEvents[Event]>): any;
     setFakeLimit(limit: number): void;
     fetchAllInvites(): Promise<void>;
     generateinviterData(): InviterData;
@@ -49,7 +48,7 @@ export default class InviteManager extends EventEmitter {
     resetInvites(guildId: string, inviter: string): Promise<boolean>;
     resetGuildInvites(guildId: string): Promise<void>;
     setInviterData(inviter: string, guildId: string, data: InviterData): Promise<void>;
-    getLeaderboard(guildId: string, page?: number, limit?: number, format?: string): Promise<any[] | null>;
+    getLeaderboard(guildId: string, page?: number, limit?: number, format?: string): Promise<any>;
     getInviteJoins(code: string, guildId: string): Promise<any>;
     getInviteLeaderboard(guildId: string, page: number, limit: number, format: string): Promise<string[] | null>;
 }

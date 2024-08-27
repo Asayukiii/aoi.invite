@@ -3,9 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const aoi_db_1 = require("@aoijs/aoi.db");
+const aoi_structures_1 = require("@aoijs/aoi.structures");
 const node_events_1 = require("node:events");
-const aoi_db_1 = require("@akarui/aoi.db");
-const structures_1 = require("@akarui/structures");
 const functions_js_1 = __importDefault(require("./functions.js"));
 class InviteManager extends node_events_1.EventEmitter {
     #client;
@@ -22,13 +22,13 @@ class InviteManager extends node_events_1.EventEmitter {
         };
         this.#client = client;
         this.cmds = {
-            inviteJoin: new structures_1.Group(Infinity),
-            inviteLeave: new structures_1.Group(Infinity),
-            inviteError: new structures_1.Group(Infinity),
+            inviteJoin: new aoi_structures_1.Group(Infinity),
+            inviteLeave: new aoi_structures_1.Group(Infinity),
+            inviteError: new aoi_structures_1.Group(Infinity),
         };
         //@ts-ignore
         this.#client.AoiInviteSystem = this;
-        this.invites = new structures_1.Group(Infinity);
+        this.invites = new aoi_structures_1.Group(Infinity);
         this.events = events;
         this.db = new aoi_db_1.KeyValue({
             dataConfig: {
@@ -65,13 +65,13 @@ class InviteManager extends node_events_1.EventEmitter {
             });
             if (!invites)
                 continue;
-            const group = new structures_1.Group(Infinity);
+            const group = new aoi_structures_1.Group(Infinity);
             for (const invite of invites.values()) {
                 group.set(invite.code, structuredClone(invite));
             }
             this.invites.set(guild.id, group);
         }
-        console.log("[@akarui/aoi.invite]: Fetched all invites");
+        console.log("[@aoijs/aoi.invite]: Fetched all invites");
     }
     async #connect() {
         await this.db.connect();
@@ -80,7 +80,7 @@ class InviteManager extends node_events_1.EventEmitter {
         this.#client.on("inviteCreate", (invite) => {
             let group = this.invites.get(invite.guild?.id);
             if (!group)
-                group = new structures_1.Group(Infinity);
+                group = new aoi_structures_1.Group(Infinity);
             group.set(invite.code, invite);
             this.invites.set(invite.guild?.id, group);
         });
@@ -98,7 +98,7 @@ class InviteManager extends node_events_1.EventEmitter {
             });
             if (!invites)
                 return;
-            const group = new structures_1.Group(Infinity);
+            const group = new aoi_structures_1.Group(Infinity);
             for (const invite of invites.values()) {
                 group.set(invite.code, invite);
             }

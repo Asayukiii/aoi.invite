@@ -1,11 +1,13 @@
-import { EventEmitter } from "node:events";
-import { AoiClient, Command } from "aoi.js";
-import { KeyValue, KeyValueData } from "@akarui/aoi.db";
-import { Invite, GuildMember } from "discord.js";
-import { Group } from "@akarui/structures";
+// @ts-nocheck ! <- Something is wrong with aoi.db typings.
 import { CodeData, InviteManagerEvents, InviterData } from "./typings.js";
+import { KeyValue, KeyValueData } from "@aoijs/aoi.db";
 import { InviteSystemEvents } from "./typings.js";
+import { Invite, GuildMember } from "discord.js";
+import { Group } from "@aoijs/aoi.structures";
+import { AoiClient, Command } from "aoi.js";
+import { EventEmitter } from "node:events";
 import functions from "./functions.js";
+
 export default class InviteManager extends EventEmitter {
     #client: AoiClient;
     db: KeyValue;
@@ -89,7 +91,7 @@ export default class InviteManager extends EventEmitter {
             this.invites.set(guild.id, group);
         }
 
-        console.log("[@akarui/aoi.invite]: Fetched all invites");
+        console.log("[@aoijs/aoi.invite]: Fetched all invites");
     }
 
     async #connect() {
