@@ -1,19 +1,29 @@
 {
     "compilerOptions": {
-        "moduleResolution": "NodeNext",
-        "target": "ESNext",
-        "allowSyntheticDefaultImports": true,
+        "declaration": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
-        "strict": true,
-        "module": "NodeNext",
+        "incremental": true,
+        "module": "CommonJS",
+        "outDir": "./dist",
+        "rootDir": "./src",
         "skipDefaultLibCheck": true,
         "skipLibCheck": true,
-        "declaration": true,
-        "sourceMap": true,
-        "declarationMap": true,
-        "resolveJsonModule": true,
-        "rootDir": "./src"
+        "target": "ES2020",
+        "strict": true,
+        "tsBuildInfoFile": "./__cache__/.tsbuildinfo",
+        "paths": {
+            "index": ["./src/index.ts", "./dist/index.js"]
+        },
+        "strictNullChecks": false,
+        "types": []
     },
-    "exclude": ["src/**/*.md", "src/**/templates/**", "dist"]
+    "include": [
+        "./src/**/*.ts"
+    ],
+    "exclude": [
+        "./node_modules",
+        "./dist",
+        "./__test__"
+    ]
 }

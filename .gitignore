@@ -1,18 +1,7 @@
-#Ignore modules
+# Folders
+__test__
+database
 node_modules
 
-#Ignore database files
-/database
-
-#Ignore Test Environment
-/commands
-config.json
-src/tests/
-plugins
-/index.js
-.idea
-.vscode
-.DS_Store
-data
-extract.js
-/__test__
+# Files
+package-lock.json
